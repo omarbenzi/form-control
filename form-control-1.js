@@ -13,7 +13,7 @@ Validation = function () {
             Array.prototype.forEach.call(inputs, input => {
                 console.log(input)
             });
-            // inputs.forEach(hello => console.logé(hello))
+            // inputs.forEach(hello => console.logé(hello))hello
             // document.form1.envoi.addEventListener('click', e => ovalidateur.valider(e.target, e.target.type, e.target.value));
 
 
