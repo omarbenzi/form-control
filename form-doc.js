@@ -10,7 +10,6 @@ var doc = {
         'msgErrVide': 'minimum 8 caractères'
     },
     'confirmationMotDePasse': {
-        'regExp': 'document["form1"]["motDePasse"]["value"]',
         'msgErr': 'identique au champ précédent',
     },
 
