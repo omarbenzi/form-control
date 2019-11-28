@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Exercice 1, formulaire 1</title>
+	<style>
+		body {
+			width: 960px;
+			margin: 0 auto;
+		}
+
+		form {
+			width: 800px;
+			margin: 0 auto;
+		}
+
+		fieldset {
+			margin-top: 30px;
+			padding-bottom: 20px;
+			width: 800px;
+			box-sizing: border-box;
+		}
+
+		legend {
+			padding: 0 15px;
+		}
+
+		label {
+			display: inline-block;
+			width: 160px;
+			padding: 15px 0;
+		}
+
+		input,
+		select {
+			display: inline-block;
+			width: 300px;
+			line-height: 24px;
+			padding: 0 10px;
+		}
+
+		input[type='checkbox'] {
+			width: 30px;
+		}
+
+		input[type='checkbox']+label {
+			width: 400px;
+			padding-bottom: 5px;
+		}
+
+		input[type='submit'] {
+			display: block;
+			margin: 10px auto 0;
+			padding: 5px 0;
+		}
+
+		select {
+			box-sizing: content-box;
+			vertical-align: text-top;
+			padding: 5px 10px;
+		}
+
+		textarea {
+			width: 480px;
+			margin: 30px 0 15px;
+			vertical-align: middle;
+		}
+
+		span {
+			display: inline-block;
+			width: 260px;
+			margin-left: 20px;
+			vertical-align: text-top;
+			color: red;
+		}
+
+		p {
+			text-align: center
+		}
+	</style>
+	<script src="form-control-1.js"></script>
+	<script src="form-doc.js"></script>
+
+	<script>
+
+		window.addEventListener("load", function () {
+			Validation.Initialiser(doc);
+
+			/*  valider ce formulaire (ne pas modifier le code HTML)
+				au clic sur le bouton submit et à chaque évènement "change" sur un élément.   
+		
+				caractéristiques des contrôles :
+		
+					tous les champs sont obligatoires, en plus de ces contrôles spécifiques :
+		
+					--- identifiant            : minimum 8 caractères, alphanumériques et minuscules uniquement,
+												 premier caractère alphabétique 
+					--- motDePasse             : minimum 8 caractères, avec au moins un caractère spécial non alphanumérique (comme par exemple: %!:&)
+												 une lettre majuscule, une lettre minuscule et un chiffre,
+												 et sans caractères "blancs"
+					--- confirmationMotDePasse : identique au champ précédent
+					--- cgu                    : case qui doit être cochée
+			*/
+
+		});
+
+	</script>
+</head>
+
+<body>
+	<form name="form1" action="" method="get">
+
+		<fieldset>
+			<legend><b>Inscription</b></legend>
+
+			<label for="identifiant">Identifiant :</label>
+			<input type="text" name="identifiant" id="identifiant" maxlength="100" placeholder="Votre identifiant">
+			<span id="errIdentifiant"></span>
+			<br>
+
+			<label for="motDePasse">Mot de passe :</label>
+			<input type="password" name="motDePasse" id="motDePasse" maxlength="100" placeholder="Votre mot de passe">
+			<span id="errMotDePasse"></span>
+			<br>
+
+			<label for="confirmationMotDePasse">Confirmation :</label>
+			<input type="password" name="confirmationMotDePasse" id="confirmationMotDePasse" maxlength="100"
+				placeholder="Confirmer votre mot de passe">
+			<span id="errConfirmationMotDePasse"></span>
+			<br>
+
+			<input type="checkbox" name="cgu" id="cgu">
+			<label for="cgu">J'ai lu et j'accepte les conditions générales d'utilisation.</label>
+			<br>
+			<span id="errCgu"></span>
+		</fieldset>
+
+		<p>Tous les champs sont obligatoires.</p>
+		<input type="submit" name="envoi" value="Envoyer">
+	</form>
+</body>
+
+</html>

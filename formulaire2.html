@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+       <meta charset="UTF-8">
+       <title>Exercice 1, formulaire 2</title>
+       <style>
+              body {
+                     width: 960px;
+                     margin: 0 auto;
+              }
+
+              form {
+                     width: 800px;
+                     margin: 0 auto;
+              }
+
+              fieldset {
+                     margin-top: 30px;
+                     padding-bottom: 20px;
+                     width: 800px;
+                     box-sizing: border-box;
+              }
+
+              legend {
+                     padding: 0 15px;
+              }
+
+              label {
+                     display: inline-block;
+                     width: 160px;
+                     padding: 0 0 10px;
+              }
+
+              input {
+                     display: inline-block;
+                     width: 300px;
+                     line-height: 24px;
+                     padding: 0 10px;
+              }
+
+              input[type='radio'] {
+                     width: 30px;
+              }
+
+              input[type='radio']+label {
+                     width: 80px;
+              }
+
+              select {
+                     box-sizing: content-box;
+                     vertical-align: text-top;
+                     margin-bottom: 10px;
+                     padding: 5px 10px;
+              }
+
+              #services~label {
+                     width: 250px;
+                     padding-bottom: 5px;
+              }
+
+              input[type='checkbox'] {
+                     width: 30px;
+              }
+
+              input[type='submit'] {
+                     display: block;
+                     margin: 10px auto 0;
+                     padding: 5px 0;
+              }
+
+              span {
+                     display: inline-block;
+                     width: 260px;
+                     vertical-align: text-top;
+                     color: red;
+              }
+
+              fieldset p:first-of-type {
+                     padding-top: 0;
+              }
+
+              fieldset p {
+                     padding-top: 20px;
+                     text-align: left;
+              }
+
+              form>p {
+                     text-align: center
+              }
+       </style>
+       	<script src="form-control-1.js"></script>
+              <script src="form-doc.js"></script>
+       <script>
+              window.addEventListener("load", function () {
+                     Validation.Initialiser(doc);
+                     /*  valider ce formulaire (ne pas modifier le code HTML)
+                            au clic sur le bouton submit et à chaque évènement "change" sur un élément.   
+              
+                            caractéristiques des contrôles : tous les champs sont obligatoires.
+                     */
+
+              });
+
+       </script>
+</head>
+
+<body>
+       <form name="form1" action="" method="get">
+
+              <fieldset>
+                     <legend><b>Votre avis nous intéresse</b></legend>
+
+                     <p>Nous recommanderiez-vous à un(e) ami(e), collègue ou membre de votre famille ?</p>
+                     <input type="radio" name="recommander" id="recommanderOui" value="oui">
+                     <label for="recommanderOui">oui</label>
+                     <input type="radio" name="recommander" id="recommanderNon" value="non">
+                     <label for="recommanderNon">non</label>
+                     <br>
+                     <span id="errRecommander"></span>
+
+                     <p>Etes-vous globalement satisfait(e) de nos services ?</p>
+                     <select name="satisfaction" id="satisfaction">
+                            <option value="">Votre niveau de satisfaction</option>
+                            <option value="1">Très satisfait</option>
+                            <option value="2">Satisfait</option>
+                            <option value="3">Peu satisfait</option>
+                            <option value="4">Pas du tout satisfait</option>
+                     </select>
+                     <br>
+                     <span id="errSatisfaction"></span>
+
+                     <p id="services">Quel(s) service(s) avez-vous utilisé ?</p>
+                     <label for="service1">Administration et gestion</label>
+                     <input type="checkbox" name="services[]" id="service1" value="1">
+                     <br>
+                     <label for="service2">Comptabilité</label>
+                     <input type="checkbox" name="services[]" id="service2" value="2">
+                     <br>
+                     <label for="service3">Impôts et finances</label>
+                     <input type="checkbox" name="services[]" id="service3" value="3">
+                     <br>
+                     <label for="service4">Aide à l’emploi</label>
+                     <input type="checkbox" name="services[]" id="service4" value="4">
+                     <br>
+                     <label for="service5">Aide à l’organisation</label>
+                     <input type="checkbox" name="services[]" id="service5" value="5">
+                     <br>
+                     <span id="errServices[]"></span>
+              </fieldset>
+
+              <p>Merci de répondre à ces trois questions.</p>
+              <input type="submit" name="envoi" value="Envoyer">
+       </form>
+</body>
+
+</html>
