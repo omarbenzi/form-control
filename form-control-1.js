@@ -1,88 +1,87 @@
 Validation = function () {
-    var inputName;
-    var regExp;
-    var type;
-    var msgErr = {};
+    let myInputs;
+    let inputName;
+    let inputType;
+    let inputValue;
+    let e;
+    let regExp;
+    let msgErr = {};
 
     ovalidateur = {
 
 
         Initialiser: function (doc) {
-            inputs = document.forms["form1"].getElementsByTagName("input")
-            console.log(inputs)
-            Array.prototype.forEach.call(inputs, input => {
-                console.log(input)
+            myInputs = document.forms['form1'].getElementsByTagName("input")
+            console.log(myInputs)
+            Array.prototype.forEach.call(myInputs, input => {
+                input.addEventListener(input.type === 'submit' ? 'click' : 'change', function (evt) {
+                    e = evt;// closure
+                    ovalidateur.valider(e.target)
+                })
+
             });
-            // inputs.forEach(hello => console.logé(hello))hello
-            // document.form1.envoi.addEventListener('click', e => ovalidateur.valider(e.target, e.target.type, e.target.value));
-
-
-            document.form1.getElementsByTagName("input").forEach(inputName => {
-                document.form1[inputName].addEventListener('change', e => ovalidateur.valider(e.target, e.target.type, e.target.value, inputName))
-            });
-
-
         },
 
-        valider: function (target, InputType, inputValue, inputName) {
-            e = e || null
-            inputName = inputName || null
-            switch (type) {
+        valider: function (target) {
+            inputName = target.name;
+            inputType = target.type;
+            inputValue = target.value;
+            switch (inputType) {
                 case 'checkbox':
-                    ovalidateur.checkboxValidation(target, InputType, inputValue, inputName);
+                    ovalidateur.checkboxValidation(target, inputName, inputValue);
                     break;
                 case 'submit':
                     ovalidateur.sabmitValidation();
                     break;
                 default:
-                    ovalidateur.defaultValidation(inputValue, inputName);
+                    ovalidateur.defaultValidation(inputName, inputValue);
             }
-            ovalidateur.ErrorDisplay();
+            ovalidateur.ErrorDisplay(e);
         },
-        defaultValidation: function (value, inputName) {
+        defaultValidation: function (inputName, inputValue) {
             msgErr[inputName] = ''
             if (inputName === 'confirmationMotDePasse') {
-                if (value !== document.form1.motDePasse.value)
+                if (inputValue !== document.form1.motDePasse.value)
                     msgErr[inputName] = doc[inputName]['msgErr']
             } else {
+                console.log(doc[inputName]['regExp'])
                 regExp = new RegExp(doc[inputName]['regExp'])
-                if (value.trim() === '') {
+                if (inputValue.trim() === '') {
                     msgErr[inputName] = doc[inputName]['msgErrVide']
-                } else if (!regExp.test(value.trim())) {
+                } else if (!regExp.test(inputValue.trim())) {
                     msgErr[inputName] = doc[inputName]['msgErr']
                 }
             }
 
 
         },
-        checkboxValidation: function (e, type, value, inputName) {
-            console.log(e.checked)
-            console.log(type)
-            console.log(value)
+        checkboxValidation: function (target, inputName, inputValue) {
+
+
             msgErr[inputName] = ''
-            if (typeof value === Array) {
-                if (value.length == 0) {
+            if (inputValue instanceof Array) {
+                if (inputValue.length === 0) {
                     msgErr[inputName] = doc[inputName]['msgErr']
                 }
 
-            } else if (!e.checked) {
+            } else if (!target.checked) {
                 msgErr[inputName] = doc[inputName]['msgErr']
             }
 
         },
-        sabmitValidation: function (e) {
-            Object.keys(doc).forEach(inputName => {
-                console.log(inputName)
-
-                ovalidateur.valider(document.form1[inputName], document.form1[inputName].type, document.form1[inputName].value, inputName)
-                if (Object.keys(msgErr).length != 0) e.preventDefault()
+        sabmitValidation: function () {
+            Array.prototype.forEach.call(myInputs, inputTarget => {
+                console.log(inputTarget.type)
+                if (inputTarget.type !== 'submit')
+                    ovalidateur.valider(inputTarget)
             });
 
         },
-        ErrorDisplay: function () {
+        ErrorDisplay: function (e) {
             if (Object.keys(msgErr).length === 0) return;
             Object.keys(msgErr).forEach((element) => {
                 document.getElementById('err' + element.charAt(0).toUpperCase() + element.slice(1)).innerHTML = msgErr[element]
+                e.preventDefault()
             });
 
 
