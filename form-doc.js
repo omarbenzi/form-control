@@ -1,4 +1,4 @@
-var doc = {
+let doc = {
     'identifiant': {
         'regExp': '^[a-z0-9]{8,}$',
         'msgErr': 'alphanumériques et minuscules uniquement, premier caractère alphabétique',
@@ -16,13 +16,16 @@ var doc = {
     'cgu': {
         'msgErr': 'case qui doit être cochée',
     },
-
-
-
-
-
-
-
-
+    'satisfaction': {
+        'msgErr': 'tous les champs sont obligatoires.'
+    },
+    'recommander': {
+        'msgErr': 'tous les champs sont obligatoires.'
+    },
+    'services[]': {
+        'msgErr': 'tous les champs sont obligatoires.'
+    }
 
 }
+
+

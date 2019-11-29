@@ -8,11 +8,8 @@ Validation = function () {
     let msgErr = {};
 
     ovalidateur = {
-
-
-        Initialiser: function (doc) {
-            myInputs = document.forms['form1'].getElementsByTagName("input")
-            console.log(myInputs)
+        Initialiser: function (doc, formName) {
+            myInputs = document.forms[formName].elements
             Array.prototype.forEach.call(myInputs, input => {
                 input.addEventListener(input.type === 'submit' ? 'click' : 'change', function (evt) {
                     e = evt;// closure
@@ -21,17 +18,20 @@ Validation = function () {
 
             });
         },
-
         valider: function (target) {
             inputName = target.name;
             inputType = target.type;
             inputValue = target.value;
             switch (inputType) {
                 case 'checkbox':
-                    ovalidateur.checkboxValidation(target, inputName, inputValue);
+                case 'radio':
+                    ovalidateur.RadioCheckboxValidation(inputName);
                     break;
                 case 'submit':
                     ovalidateur.sabmitValidation();
+                    break;
+                case 'select-one':
+                    ovalidateur.selectValidation(target, inputName);
                     break;
                 default:
                     ovalidateur.defaultValidation(inputName, inputValue);
@@ -44,7 +44,6 @@ Validation = function () {
                 if (inputValue !== document.form1.motDePasse.value)
                     msgErr[inputName] = doc[inputName]['msgErr']
             } else {
-                console.log(doc[inputName]['regExp'])
                 regExp = new RegExp(doc[inputName]['regExp'])
                 if (inputValue.trim() === '') {
                     msgErr[inputName] = doc[inputName]['msgErrVide']
@@ -52,27 +51,23 @@ Validation = function () {
                     msgErr[inputName] = doc[inputName]['msgErr']
                 }
             }
-
-
         },
-        checkboxValidation: function (target, inputName, inputValue) {
-
-
+        RadioCheckboxValidation: function (inputName) {
             msgErr[inputName] = ''
-            if (inputValue instanceof Array) {
-                if (inputValue.length === 0) {
-                    msgErr[inputName] = doc[inputName]['msgErr']
-                }
-
-            } else if (!target.checked) {
+            checkboxes = document.getElementsByName(inputName);
+            selectedCboxes = Array.prototype.slice.call(checkboxes).filter(ch => ch.checked == true);
+            if (selectedCboxes.length === 0) {
                 msgErr[inputName] = doc[inputName]['msgErr']
             }
-
+        },
+        selectValidation: function (target, inputName) {
+            msgErr[inputName] = ''
+            if (target.options[target.selectedIndex].value === '')
+                msgErr[inputName] = doc[inputName]['msgErr']
         },
         sabmitValidation: function () {
             Array.prototype.forEach.call(myInputs, inputTarget => {
-                console.log(inputTarget.type)
-                if (inputTarget.type !== 'submit')
+                if (inputTarget.type !== 'submit' && inputTarget.type !== 'fieldset')
                     ovalidateur.valider(inputTarget)
             });
 
@@ -81,18 +76,9 @@ Validation = function () {
             if (Object.keys(msgErr).length === 0) return;
             Object.keys(msgErr).forEach((element) => {
                 document.getElementById('err' + element.charAt(0).toUpperCase() + element.slice(1)).innerHTML = msgErr[element]
-                e.preventDefault()
             });
-
-
+            //e.preventDefault()
         }
-
-
-
-
-
     }
     return ovalidateur;
-
-
 }();
