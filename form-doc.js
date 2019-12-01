@@ -1,11 +1,11 @@
 let doc1 = {
     'identifiant': {
-        'regExp': '^[a-z0-9]{8,}$',
+        'regExp': '^[a-z][a-z0-9]{7,}$',
         'msgErr': 'alphanumériques et minuscules uniquement, premier caractère alphabétique',
         'msgErrVide': 'minimum 8 caractères'
     },
     'motDePasse': {
-        'regExp': '^[a-z0-9W]{8,}$',
+        'regExp': '(?=.*\\\\S)(?=.*\\\\W).{8,}',// ca fomctionne !?(\\\\) 
         'msgErr': 'avec au moins un caractère spécial non alphanumérique (comme par exemple: %!:&)',
         'msgErrVide': 'minimum 8 caractères'
     },

@@ -1,5 +1,6 @@
 class Validation {
     formName;
+    target;
     myInputs;
     inputName;
     inputValue;
@@ -11,13 +12,14 @@ class Validation {
     selectedCboxes;
     msgErr = {};
     constructor(doc, formName) {
-        this.Initialiser(doc, formName);
-    }
-    Initialiser(doc, formName) {
         this.doc = doc
         this.formName = formName;
-        console.log(this.formName)
-        this.myInputs = document.forms[formName].elements
+        this.Initialiser();
+    }
+
+    Initialiser() {
+
+        this.myInputs = document.forms[this.formName].elements
         Array.prototype.forEach.call(this.myInputs, input => {
             input.addEventListener(input.type === 'submit' ? 'click' : 'change', (evt) => {
                 if (input.type === 'submit') this.e = evt;// closure besoin pour preventDefault()
@@ -28,63 +30,63 @@ class Validation {
         });
     }
     valider(target) {
-        this.inputName = target.name;
-        this.inputType = target.type;
-        this.inputValue = target.value;
+        this.target = target
+        this.inputName = this.target.name;
+        this.inputType = this.target.type;
+        this.inputValue = this.target.value;
+
         switch (this.inputType) {
             case 'checkbox':
             case 'radio':
-                this.RadioCheckboxValidation(this.inputName);
+                this.RadioCheckboxValidation();
                 break;
             case 'submit':
                 this.sabmitValidation();
                 break;
             case 'select-one':
-                this.selectValidation(target, this.inputName);
+                this.selectValidation();
                 break;
             default:
-                this.defaultValidation(this.inputName, this.inputValue);
+                this.defaultValidation();
         }
-        this.ErrorDisplay(this.e);
+        this.ErrorDisplay(); // affichage des erreur 
     }
-    defaultValidation(inputName, inputValue) {
+
+    defaultValidation() { // validation des input text 
         this.msgErr[this.inputName] = ''
         this.regex = eval("`" + this.doc[this.inputName]['regExp'] + "`");
-        console.log(this.regex)
-        this.regex = new RegExp(this.regex)
-        console.log(this.regex)
         if (this.inputValue.trim() === '') {
             this.msgErr[this.inputName] = this.doc[this.inputName]['msgErrVide']
-        } else if (!this.regex.test(this.inputValue.trim())) {
+        } else if (!this.inputValue.trim().match(this.regex)) {
             this.msgErr[this.inputName] = this.doc[this.inputName]['msgErr']
         }
 
     }
-    RadioCheckboxValidation(inputName) {
+    RadioCheckboxValidation() {
         this.msgErr[this.inputName] = ''
         this.checkboxes = document.getElementsByName(this.inputName);
-        this.selectedCboxes = Array.prototype.slice.call(this.checkboxes).filter(ch => ch.checked == true);
+        this.selectedCboxes = Array.prototype.slice.call(this.checkboxes).filter(ch => ch.checked == true); // recuperation des checkboxes selectionés  
         if (this.selectedCboxes.length === 0) {
             this.msgErr[this.inputName] = this.doc[this.inputName]['msgErr']
         }
     }
-    selectValidation(target, inputName) {
+    selectValidation() {
         this.msgErr[this.inputName] = ''
-        if (target.options[target.selectedIndex].value === '')
+        if (this.target.options[this.target.selectedIndex].value === '')
             this.msgErr[this.inputName] = this.doc[this.inputName]['msgErr']
     }
     sabmitValidation() {
         Array.prototype.forEach.call(this.myInputs, inputTarget => {
-            if (inputTarget.type !== 'submit' && inputTarget.type !== 'fieldset')
+            if (inputTarget.type !== 'submit' && inputTarget.type !== 'fieldset') // a cause que nous avons un fieldset à l'interieur du form 
                 this.valider(inputTarget)
         });
-        if (Object.keys(this.msgErr).length != 0) this.e.preventDefault();
+        if (Object.keys(this.msgErr).length != 0) this.e.preventDefault(); // est executé apres la fonction ErrorDisplay()
 
     }
     ErrorDisplay() {
         Object.keys(this.msgErr).forEach(element => {
             document.getElementById('err' + element.charAt(0).toUpperCase() + element.slice(1)).innerHTML = this.msgErr[element]
-            if (this.msgErr[element] === '')
+            if (this.msgErr[element] === '') // suppression de la propreité si ca valeur est vide 
                 delete this.msgErr[element];
 
         });
