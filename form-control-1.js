@@ -1,4 +1,5 @@
 class Validation {
+    formName;
     myInputs;
     inputName;
     inputValue;
@@ -12,10 +13,10 @@ class Validation {
     constructor(doc, formName) {
         this.Initialiser(doc, formName);
     }
-
-
     Initialiser(doc, formName) {
         this.doc = doc
+        this.formName = formName;
+        console.log(this.formName)
         this.myInputs = document.forms[formName].elements
         Array.prototype.forEach.call(this.myInputs, input => {
             input.addEventListener(input.type === 'submit' ? 'click' : 'change', (evt) => {
@@ -48,17 +49,16 @@ class Validation {
     }
     defaultValidation(inputName, inputValue) {
         this.msgErr[this.inputName] = ''
-        if (this.inputName === 'confirmationMotDePasse') {
-            if (this.inputValue !== document.form1.motDePasse.value)
-                this.msgErr[this.inputName] = this.doc[this.inputName]['msgErr']
-        } else {
-            this.regex = new RegExp(this.doc[this.inputName]['regExp'])
-            if (this.inputValue.trim() === '') {
-                this.msgErr[this.inputName] = this.doc[this.inputName]['msgErrVide']
-            } else if (!this.regex.test(this.inputValue.trim())) {
-                this.msgErr[this.inputName] = this.doc[this.inputName]['msgErr']
-            }
+        this.regex = eval("`" + this.doc[this.inputName]['regExp'] + "`");
+        console.log(this.regex)
+        this.regex = new RegExp(this.regex)
+        console.log(this.regex)
+        if (this.inputValue.trim() === '') {
+            this.msgErr[this.inputName] = this.doc[this.inputName]['msgErrVide']
+        } else if (!this.regex.test(this.inputValue.trim())) {
+            this.msgErr[this.inputName] = this.doc[this.inputName]['msgErr']
         }
+
     }
     RadioCheckboxValidation(inputName) {
         this.msgErr[this.inputName] = ''
